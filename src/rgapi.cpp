@@ -118,3 +118,19 @@ std::string getnamefromid(int id) {
     return "ERROR: no player found";
 
 }
+std::string getplayername() {
+    for(int i = 0; i < __argc; i++) {
+        if(__argv[i] == std::string("--name")) {
+            return __argv[i + 1];
+        }
+    }
+    return NULL;
+}
+std::string getplayersession() {
+    for(int i = 0; i < __argc; i++) {
+        if(__argv[i] == std::string("--session")) {
+            return __argv[i + 1];
+        }
+    }
+    return 0;
+}

@@ -20,3 +20,11 @@ extern int getidfromname(const char* name);
 
 //get the username of a player with a specific id
 extern std::string getnamefromid(int id);
+
+//get player name given by launcer
+//just pass trough __argc and __argv
+extern std::string getplayername();
+
+//get current session given by launcher
+//just pass trough __argc and __argv
+extern std::string getplayersession();
