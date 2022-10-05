@@ -18,17 +18,17 @@ void loadrgapi() {
 }
 void getapiversion() {
     curl = curl_easy_init();
-    std::cout << "your version is " << RGAPI_VERSION << "\n";
 
     if(devmode) {
         curl_easy_setopt(curl, CURLOPT_URL, "http://localhost/ricardogames-site/api.ricardogames.ml/htdocs/?r=getlatestapiver");
     }
     else {
-        curl_easy_setopt(curl, CURLOPT_URL, "https://api.ricardogames.ml?r=getlatestapiver");
+        curl_easy_setopt(curl, CURLOPT_URL, "http://api.ricardogames.ml?r=getlatestapiver");
     }
     
     std::string response_string;
     std::string header_string;
+    curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writeFunction);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response_string);
     curl_easy_setopt(curl, CURLOPT_HEADERDATA, &header_string);
@@ -41,7 +41,15 @@ void getapiversion() {
         std::cout << "curl_easy_perform() failed: " << curl_easy_strerror(res) << "\n";
     }
     else {
-       std::cout << "latest version is " << response_string << "\n";
+        if(std::string(RGAPI_VERSION) == response_string) {
+            std::cout << "api is up to date (" << response_string << ")\n";
+        }
+        else {
+            std::cout << "api version is outdated. if you are the developer please update the api.\n";
+            std::cout << "your version is " << RGAPI_VERSION << "\n";
+        	std::cout << "latest version is " << response_string << "\n";
+        }
+       
     }
 
     /* always cleanup */
@@ -58,12 +66,13 @@ int getidfromname(std::string name) {
         curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
     }
     else {
-        std::string url = "https://api.ricardogames.ml/?r=nametoid&name=" + name;
+        std::string url = "http://api.ricardogames.ml/?r=nametoid&name=" + name;
         curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
     }
 
     std::string response_string;
     std::string header_string;
+    curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writeFunction);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response_string);
     curl_easy_setopt(curl, CURLOPT_HEADERDATA, &header_string);
@@ -98,12 +107,13 @@ std::string getnamefromid(int id) {
         curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
     }
     else {
-        std::string url = "https://api.ricardogames.ml/?r=idtoname&id=" + std::to_string(id);
+        std::string url = "http://api.ricardogames.ml/?r=idtoname&id=" + std::to_string(id);
         curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
     }
 
     std::string response_string;
     std::string header_string;
+    curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writeFunction);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response_string);
     curl_easy_setopt(curl, CURLOPT_HEADERDATA, &header_string);
@@ -118,19 +128,63 @@ std::string getnamefromid(int id) {
     return "ERROR: no player found";
 
 }
-std::string getplayername() {
-    for(int i = 0; i < __argc; i++) {
-        if(__argv[i] == std::string("--name")) {
-            return __argv[i + 1];
+std::string getplayername(int argc, char* argv[]) {
+    for(int i = 0; i < argc; i++) {
+        if(std::string(argv[i]) == std::string("--name")) {
+            return argv[i + 1];
         }
     }
-    return NULL;
+    return "";
 }
-std::string getplayersession() {
-    for(int i = 0; i < __argc; i++) {
-        if(__argv[i] == std::string("--session")) {
-            return __argv[i + 1];
+std::string getplayersession(int argc, char* argv[]) {
+    for(int i = 0; i < argc; i++) {
+        if(std::string(argv[i]) == std::string("--session")) {
+            return argv[i + 1];
         }
     }
-    return 0;
+    return "";
+}
+int getwrcount(int id) {
+    curl = curl_easy_init();
+    
+    if(devmode) {
+        std::string url = "http://localhost/ricardogames-site/api.ricardogames.ml/htdocs/?r=getwrcount&id=" + std::to_string(id);
+        curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+    }
+    else {
+        std::string url = "http://api.ricardogames.ml/?r=idtoname&id=" + std::to_string(id);
+        curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+    }
+
+    std::string response_string;
+    std::string header_string;
+    curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writeFunction);
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response_string);
+    curl_easy_setopt(curl, CURLOPT_HEADERDATA, &header_string);
+   
+    CURLcode res = curl_easy_perform(curl);
+    if(res != CURLE_OK) {
+        std::cout << "curl_easy_perform() failed: " << curl_easy_strerror(res) << "\n";
+    }
+    else {
+        if(!isdigit(response_string[0])) {
+            std::cout << response_string << "\n";
+        }
+        else {
+            int num = stoi(response_string);
+
+            if(devmode) {
+                std::cout << num << "\n";
+            }
+            return num;
+        }
+    }
+    return -1;
+}
+std::string newsession(std::string session) {
+    return "coming soon";
+}
+bool checksession(std::string session) {
+    return false;
 }

@@ -6,10 +6,36 @@
 int WinMain(int argc, char* argv[]) {
     loadrgapi();
     getapiversion();
-    int testid = getidfromname(std::string("robin"));
-    std::cout << "id for robin: " << testid << "\n";
-    std::string myid = getnamefromid(2);
-    std::cout << "name for id 2: " << myid << "\n";
+    std::string playername = getplayername(__argc, __argv);
+    std::string session = getplayersession(__argc, __argv);
+    if(playername != "") {
+        int testid = getidfromname(playername);
+        std::cout << "id for player: " << testid << "\n";
+        std::string myname = getnamefromid(testid);
+        std::cout << "name for id: " << myname << "\n";
+        int wrcount = getwrcount(testid);
+        std::cout << "player has " << wrcount << " world records in doolhof, de game!\n";
+    }
+    else {
+        std::cout << "playername is undefined\n";
+    }
+    if(session != "") {
+        std::cout << "session: " << session << "\n";
+    }
+    else {
+        std::cout << "session is undefined\n";
+        
+    }
+    if(playername == "" || session == "") {
+        std::cout << "arguments:\n";
+        for(int i = 0; i < __argc; i++) {
+            std::cout << __argv[i] << "\n";
+        
+        }
+    }
+   
+    
+    
     std::this_thread::sleep_for(std::chrono::milliseconds(5000));
     return 0;
 }

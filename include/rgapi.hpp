@@ -23,8 +23,20 @@ extern std::string getnamefromid(int id);
 
 //get player name given by launcer
 //just pass trough __argc and __argv
-extern std::string getplayername();
+extern std::string getplayername(int argc, char* argv[]);
 
 //get current session given by launcher
 //just pass trough __argc and __argv
-extern std::string getplayersession();
+extern std::string getplayersession(int argc, char* argv[]);
+
+//get the amount of records the player has in doolhof, de game!
+//id: id of the player
+extern int getwrcount(int id);
+
+//get a new session
+//session: the current session
+extern std::string newsession(std::string session);
+
+//check if a given session is correct
+//session: the session given by the player
+extern bool checksession(std::string session);
