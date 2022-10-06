@@ -24,7 +24,6 @@ int WinMain(int argc, char* argv[]) {
     if(session != "") {
         std::cout << "session: " << session << "\n";
         if(testid != 0) {
-            std::cout << testid << "\n";
             if(checksession(testid, session)) {
                 std::cout << "session is correct\n";
                 session = newsession(testid, session);

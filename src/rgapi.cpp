@@ -129,17 +129,21 @@ std::string getnamefromid(int id) {
 
 }
 std::string getplayername(int argc, char* argv[]) {
-    for(int i = 0; i < argc; i++) {
+    for(int i = 0; i < argc - 1; i++) {
         if(std::string(argv[i]) == std::string("--name")) {
-            return argv[i + 1];
+            if(std::string(argv[i + 1]) != std::string("--session")) {
+                return argv[i + 1];
+            }
         }
     }
     return "";
 }
 std::string getplayersession(int argc, char* argv[]) {
-    for(int i = 0; i < argc; i++) {
+    for(int i = 0; i < argc - 1; i++) {
         if(std::string(argv[i]) == std::string("--session")) {
-            return argv[i + 1];
+            if(std::string(argv[i + 1]) != std::string("--name")) {
+                return argv[i + 1];
+            }
         }
     }
     return "";
@@ -173,10 +177,6 @@ int getwrcount(int id) {
         }
         else {
             int num = stoi(response_string);
-
-            if(devmode) {
-                std::cout << num << "\n";
-            }
             return num;
         }
     }
