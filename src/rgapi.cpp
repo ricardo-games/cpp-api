@@ -182,9 +182,69 @@ int getwrcount(int id) {
     }
     return -1;
 }
-std::string newsession(std::string session) {
-    return "coming soon";
+std::string newsession(int id, std::string session) {
+    curl = curl_easy_init();
+    
+    if(devmode) {
+        std::string url = "http://localhost/ricardogames-site/api.ricardogames.ml/htdocs/?r=newsession&session=" + session + "&id=" + std::to_string(id);
+        curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+    }
+    else {
+        std::string url = "http://api.ricardogames.ml/?r=newsession&session=" + session + "&id=" + std::to_string(id);
+        curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+    }
+
+    std::string response_string;
+    std::string header_string;
+    curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writeFunction);
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response_string);
+    curl_easy_setopt(curl, CURLOPT_HEADERDATA, &header_string);
+   
+    CURLcode res = curl_easy_perform(curl);
+    if(res != CURLE_OK) {
+        std::cout << "curl_easy_perform() failed: " << curl_easy_strerror(res) << "\n";
+    }
+    else {
+        if(response_string.length() == 32) {
+            return response_string;
+        }
+        else {
+            std::cout << response_string << "\n";
+        }
+    }
+    return "empty";
 }
-bool checksession(std::string session) {
+bool checksession(int id, std::string session) {
+    curl = curl_easy_init();
+    
+    if(devmode) {
+        std::string url = "http://localhost/ricardogames-site/api.ricardogames.ml/htdocs/?r=checksession&session=" + session + "&id=" + std::to_string(id);
+        curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+    }
+    else {
+        std::string url = "http://api.ricardogames.ml/?r=checksession&session=" + session + "&id=" + std::to_string(id);
+        curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+    }
+
+    std::string response_string;
+    std::string header_string;
+    curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writeFunction);
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response_string);
+    curl_easy_setopt(curl, CURLOPT_HEADERDATA, &header_string);
+   
+    CURLcode res = curl_easy_perform(curl);
+    if(res != CURLE_OK) {
+        std::cout << "curl_easy_perform() failed: " << curl_easy_strerror(res) << "\n";
+    }
+    else {
+       if(response_string == "true") {
+            return true;
+       }
+        if(response_string != "false") {
+            std::cout << response_string << "\n";
+        }
+    }
     return false;
 }

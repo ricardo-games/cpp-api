@@ -35,8 +35,9 @@ extern int getwrcount(int id);
 
 //get a new session
 //session: the current session
-extern std::string newsession(std::string session);
+extern std::string newsession(int id, std::string session);
 
 //check if a given session is correct
+//id: id of the player to check
 //session: the session given by the player
-extern bool checksession(std::string session);
+extern bool checksession(int id, std::string session);

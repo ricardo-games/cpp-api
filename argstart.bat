@@ -1,3 +1,7 @@
 cd build
-api-test.exe --name robin --session testsession
+@echo off
+set /p curname=name: 
+set /p cursession=session: 
+@echo on
+api-test.exe --name %curname% --session %cursession%
 cd ../

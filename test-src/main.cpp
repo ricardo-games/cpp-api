@@ -3,13 +3,15 @@
 #include <iostream>
 #include "rgapi.hpp"
 
+int testid = 0;
+
 int WinMain(int argc, char* argv[]) {
     loadrgapi();
     getapiversion();
     std::string playername = getplayername(__argc, __argv);
     std::string session = getplayersession(__argc, __argv);
     if(playername != "") {
-        int testid = getidfromname(playername);
+        testid = getidfromname(playername);
         std::cout << "id for player: " << testid << "\n";
         std::string myname = getnamefromid(testid);
         std::cout << "name for id: " << myname << "\n";
@@ -21,6 +23,18 @@ int WinMain(int argc, char* argv[]) {
     }
     if(session != "") {
         std::cout << "session: " << session << "\n";
+        if(testid != 0) {
+            std::cout << testid << "\n";
+            if(checksession(testid, session)) {
+                std::cout << "session is correct\n";
+                session = newsession(testid, session);
+                std::cout << "new session: " << session << "\n";
+            }
+            else {
+                std::cout << "session is incorect\n";
+            }
+        }
+        
     }
     else {
         std::cout << "session is undefined\n";
