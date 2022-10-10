@@ -39,7 +39,7 @@ bool getapiversion(bool dologging) {
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writeFunction);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response_string);
     curl_easy_setopt(curl, CURLOPT_HEADERDATA, &header_string);
-       
+    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
     CURLcode res = curl_easy_perform(curl);
 
     bool uptodate = false;
@@ -79,6 +79,7 @@ bool getserverapiversion(bool dologging) {
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writeFunction);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response_string);
     curl_easy_setopt(curl, CURLOPT_HEADERDATA, &header_string);
+    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
        
     CURLcode res = curl_easy_perform(curl);
 
@@ -127,6 +128,7 @@ int getidfromname(std::string name) {
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writeFunction);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response_string);
     curl_easy_setopt(curl, CURLOPT_HEADERDATA, &header_string);
+    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
    
     CURLcode res = curl_easy_perform(curl);
     if(res != CURLE_OK) {
@@ -164,6 +166,7 @@ std::string getnamefromid(int id) {
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writeFunction);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response_string);
     curl_easy_setopt(curl, CURLOPT_HEADERDATA, &header_string);
+    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
    
     CURLcode res = curl_easy_perform(curl);
     if(res != CURLE_OK) {
@@ -211,6 +214,7 @@ int getwrcount(int id) {
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writeFunction);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response_string);
     curl_easy_setopt(curl, CURLOPT_HEADERDATA, &header_string);
+    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
    
     CURLcode res = curl_easy_perform(curl);
     if(res != CURLE_OK) {
@@ -242,6 +246,7 @@ std::string newsession(int id, std::string session) {
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writeFunction);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response_string);
     curl_easy_setopt(curl, CURLOPT_HEADERDATA, &header_string);
+    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
    
     CURLcode res = curl_easy_perform(curl);
     if(res != CURLE_OK) {
@@ -272,6 +277,7 @@ bool checksession(int id, std::string session) {
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writeFunction);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response_string);
     curl_easy_setopt(curl, CURLOPT_HEADERDATA, &header_string);
+    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
    
     CURLcode res = curl_easy_perform(curl);
     if(res != CURLE_OK) {
