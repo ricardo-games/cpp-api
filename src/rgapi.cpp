@@ -6,7 +6,7 @@
 
 CURL* curl;
 
-bool devmode = true;
+bool devmode = false;
 
 std::string url;
 
@@ -23,7 +23,7 @@ void loadrgapi() {
         url = "http://localhost/ricardogames-site/api/?v=" + std::string(RGAPI_SERVER_VERSION);
     }
     else {
-        url = "http://api.ricardogames.nl/?v=" + std::string(RGAPI_SERVER_VERSION);
+        url = "https://api.ricardogames.nl/?v=" + std::string(RGAPI_SERVER_VERSION);
     }
     std::cout << "ricardogames api version " << RGAPI_VERSION << " loaded.\n";
 }

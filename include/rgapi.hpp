@@ -16,14 +16,14 @@ extern void loadrgapi();
 
 /**get the latest api version of the library.
 * \param dologging log info about the version to the console (still logs deprication message)
-* \return returns true if on the latest version
+* \return true if on the latest version, false if the version is outdated
 */
 extern bool getapiversion(bool dologging);
 
 /**get the latest server api version.
 * this can be different than the library version because of bugfixes
 * \param dologging log info about the version to the console (still logs deprication message)
-* \return returns true if on the latest version
+* \return true if on the latest version, false if the version is outdated
 */
 extern bool getserverapiversion(bool dologging);
 
@@ -39,20 +39,20 @@ extern std::string latestserverapiver;
 
 
 /**get the id of a player with a specific name.
-* \param name name of the player to search
-* \return returns the id of the player with the given name
+* \param name the name of the player to search
+* \return the id of the player with the given name or -1 if no player was found
 */
 extern int getidfromname(std::string name);
 
 /**get the id of a player with a specific name.
 * \param name the name of the player to search
-* \return returns the id of the player with the given name or -1 if no player was found
+* \return the id of the player with the given name or -1 if no player was found
 */
 extern int getidfromname(const char* name);
 
 /**get the username of a player with a specific id.
 * \param id the id of the player to search
-* \returns the name of the player with te given id or "ERROR: no player found" if no player was found
+* \return the name of the player with te given id or "ERROR: no player found" if no player was found
 */
 extern std::string getnamefromid(int id);
 
@@ -60,7 +60,7 @@ extern std::string getnamefromid(int id);
 * pass trough __argc and __argv on windows and  argc and argv on linux
 * \param argc argc launch argument
 * \param argv argv launch argument
-* \returns the username of the player
+* \return the username of the player
 */
 extern std::string getplayername(int argc, char* argv[]);
 
@@ -68,13 +68,13 @@ extern std::string getplayername(int argc, char* argv[]);
 * pass trough __argc and __argv on windows and  argc and argv on linux
 * \param argc argc launch argument
 * \param argv argv launch argument
-* \returns the session of the player
+* \return the session of the player
 */
 extern std::string getplayersession(int argc, char* argv[]);
 
 /**get the amount of records the player has in doolhof, de game!
 * \param id id of the player
-* \returns the amount of world records the player has or -1 on an error
+* \return the amount of world records the player has or -1 on an error
 */
 extern int getwrcount(int id);
 
@@ -82,7 +82,7 @@ extern int getwrcount(int id);
 * if ERROR is returned imediatly exit because the session may have been stolen by the server
 * \param id the id of the player
 * \param session the current session
-* \returns the new session or ERROR on an error
+* \return the new session or ERROR on an error
 */
 extern std::string newsession(int id, std::string session);
 
@@ -91,6 +91,6 @@ extern std::string newsession(int id, std::string session);
 * only accept players when this function returns true
 * \param id id of the player to check
 * \param session the session given by the player
-* \returns a boolean, if true the session is correct, false if incorrect
+* \return true if the session is correct, false if incorrect
 */
 extern bool checksession(int id, std::string session);
