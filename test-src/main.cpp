@@ -7,7 +7,8 @@ int testid = 0;
 
 int WinMain(int argc, char* argv[]) {
     loadrgapi();
-    getapiversion();
+    getapiversion(true);
+    getserverapiversion(true);
     std::string playername = getplayername(__argc, __argv);
     std::string session = getplayersession(__argc, __argv);
     if(playername != "") {
@@ -46,10 +47,6 @@ int WinMain(int argc, char* argv[]) {
         
         }
     }
-   
-    
-    
-    std::this_thread::sleep_for(std::chrono::milliseconds(5000));
     return 0;
 }
 

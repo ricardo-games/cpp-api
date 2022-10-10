@@ -30,6 +30,11 @@ LIB_NAME = build/ricardogames-api
 all:${OBJ}
 	ar crf lib/librgapi.a ${OBJ}
 	${CC} ${OBJ} ${COMPILER_FLAGS} ${INCLUDE_PATHS} ${LIBRARY_PATHS} ${LIB_LINKER} -shared -o ${LIB_NAME}.dll
+	$(CC) $(TESTSRC) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(COMPILER_FLAGS) $(LINKER_FLAGS) -o $(TEST_NAME)
+
+lib:${OBJ}
+	ar crf lib/librgapi.a ${OBJ}
+	${CC} ${OBJ} ${COMPILER_FLAGS} ${INCLUDE_PATHS} ${LIBRARY_PATHS} ${LIB_LINKER} -shared -o ${LIB_NAME}.dll
 
 test : $(TESTSRC)
 	$(CC) $(TESTSRC) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(COMPILER_FLAGS) $(LINKER_FLAGS) -o $(TEST_NAME)
