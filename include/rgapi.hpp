@@ -4,7 +4,7 @@
 
 /**the version number of the current build of the api
 */
-#define RGAPI_VERSION "0.0.1"
+#define RGAPI_VERSION "0.1.0"
 /**the serverside api version this build of the library uses.
 */
 #define RGAPI_SERVER_VERSION "0.1.0"
