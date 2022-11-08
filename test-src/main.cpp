@@ -4,13 +4,22 @@
 #include "rgapi.hpp"
 
 int testid = 0;
-
+#ifdef _WIN32
 int WinMain(int argc, char* argv[]) {
+#else
+int main(int argc, char* argv[]) {
+#endif
     loadrgapi();
     getapiversion(true);
     getserverapiversion(true);
+    #ifdef _WIN32
     std::string playername = getplayername(__argc, __argv);
     std::string session = getplayersession(__argc, __argv);
+    #else
+    std::string playername = getplayername(argc, argv);
+    std::string session = getplayersession(argc, argv);
+    #endif
+    
     if(playername != "") {
         testid = getidfromname(playername);
         std::cout << "id for player: " << testid << "\n";
@@ -42,10 +51,18 @@ int WinMain(int argc, char* argv[]) {
     }
     if(playername == "" || session == "") {
         std::cout << "arguments:\n";
+        #ifdef _WIN32
         for(int i = 0; i < __argc; i++) {
             std::cout << __argv[i] << "\n";
         
         }
+        #else
+        for(int i = 0; i < argc; i++) {
+            std::cout << argv[i] << "\n";
+        
+        }
+        #endif
+       
     }
     return 0;
 }
