@@ -6,6 +6,7 @@
 int testid = 0;
 
 int WinMain(int argc, char* argv[]) {
+    uselocalhost = true;
     loadrgapi();
     getapiversion(true);
     getserverapiversion(true);

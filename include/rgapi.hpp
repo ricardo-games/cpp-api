@@ -1,31 +1,53 @@
-/*!ricardogames api*/
 #pragma once
 #include <string>
 
-/**the version number of the current build of the api
+/**the major version number of the current build of the api
 */
-#define RGAPI_VERSION "0.1.0"
-/**the serverside api version this build of the library uses.
+#define RGAPI_MAJOR_VERSION "0"
+/**the minor version number of the current build of the api
 */
-#define RGAPI_SERVER_VERSION "0.1.0"
+#define RGAPI_MINOR_VERSION "2"
+/**the fix version number of the current build of the api
+*/
+#define RGAPI_FIX_VERSION "0"
+
+/**the major serverside api version this build of the library uses.
+*/
+#define RGAPI_SERVER_MAJOR_VERSION "0"
+/**the minor serverside api version this build of the library uses.
+*/
+#define RGAPI_SERVER_MINOR_VERSION "2"
+/**the fix serverside api version this build of the library uses.
+*/
+#define RGAPI_SERVER_FIX_VERSION "0"
+
+/**boolean to use localhost for the api site.
+* defaults to false, only set to true if you want to debug serverside and have the serverside files
+*/
+extern bool uselocalhost;
 
 /**load the api.
 * load the ricardogames api, must be called before any other fuctions are run (exept getplayername and getplayersession)
 */
 extern void loadrgapi();
 
+/**correctly shut down the api.
+* quits the api, this correctly closes things the library uses
+*/ 
+extern void quitrgapi();
+
 /**get the latest api version of the library.
-* \param dologging log info about the version to the console (still logs deprication message)
-* \return true if on the latest version, false if the version is outdated
+* \param dologging log info about the version to the console
+* \return 1 if up to date, 0 if outdated, -1 if depricated
 */
-extern bool getapiversion(bool dologging);
+extern int getapiversion(bool dologging);
 
 /**get the latest server api version.
 * this can be different than the library version because of bugfixes
-* \param dologging log info about the version to the console (still logs deprication message)
-* \return true if on the latest version, false if the version is outdated
+* \param dologging log info about the version to the console
+* \return 1 if up to date, 0 if outdated, -1 if depricated
 */
-extern bool getserverapiversion(bool dologging);
+extern int getserverapiversion(bool dologging);
 
 /**the latest version of the api.
 * run getapiversion to get a value

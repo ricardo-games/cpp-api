@@ -5,3 +5,4 @@ set /p cursession=session:
 @echo on
 api-test.exe --name %curname% --session %cursession%
 cd ../
+pause
