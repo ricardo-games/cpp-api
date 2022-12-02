@@ -1,0 +1,32 @@
+SRC = src/rgapi.cpp
+OBJ = src/linuxrgapi.o
+
+TESTSRC = test-src/main.cpp
+
+#de compiler die gebruikt moet worden
+CC = g++
+
+#de bestanden van de librarys die geinclude moeten worden
+INCLUDE_PATHS = -Iinclude
+#de locar=tie van de library bestanden
+LIBRARY_PATHS = -Llib -Llib/linux
+
+#flags die de compiler gebruikt (kan bijv. optimalisatie met -O2)
+COMPILER_FLAGS = -std=c++2a -O2 -pthread
+
+#de library bestanden die gebruikt moeten worden 
+LINKER_FLAGS = -lcurl -lrgapi
+
+#linker flags voor de library
+LIB_LINKER = -lcurl
+
+#de locatie van het output bestand
+TEST_NAME = build/api-test
+
+#de locatie van de library
+LIB_NAME = build/ricardogames-api
+
+all:${SRC}
+	${CC} ${COMPILER_FLAGS} ${INCLUDE_PATHS} -c -o $(OBJ) $(SRC)
+	ar crf lib/librgapi.a ${OBJ}
+	$(CC) $(TESTSRC) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(COMPILER_FLAGS) $(LINKER_FLAGS) -o $(TEST_NAME)

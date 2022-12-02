@@ -29,7 +29,7 @@ extern bool uselocalhost;
 /**load the api.
 * load the ricardogames api, must be called before any other fuctions are run (exept getplayername and getplayersession)
 */
-extern void loadrgapi();
+extern void loadrgapi(bool dologging);
 
 /**correctly shut down the api.
 * quits the api, this correctly closes things the library uses

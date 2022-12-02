@@ -44,3 +44,6 @@ test : $(TESTSRC)
 
 clean:
 	-rm -f src/*.o test-src/*.o
+
+linux:
+	make -f makefile.linux

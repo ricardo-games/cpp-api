@@ -2,6 +2,7 @@
 #include <iostream>
 #include <stdio.h>
 #include <string>
+#include <sstream>
 #include <curl/curl.h>
 
 CURL* curl;
@@ -25,7 +26,7 @@ size_t writeFunction(void *ptr, size_t size, size_t nmemb, std::string* data) {
     return size * nmemb;
 }
 
-void loadrgapi() {
+void loadrgapi(bool dologging) {
     fullapiver = std::string(RGAPI_MAJOR_VERSION) + "." + std::string(RGAPI_MINOR_VERSION) + "." + std::string(RGAPI_FIX_VERSION);
     fullserverver = std::string(RGAPI_SERVER_MAJOR_VERSION) + "." + std::string(RGAPI_SERVER_MINOR_VERSION) + "." + std::string(RGAPI_SERVER_FIX_VERSION);
     if(uselocalhost) {
@@ -41,9 +42,9 @@ void loadrgapi() {
     curl_easy_setopt(curl, CURLOPT_HEADERDATA, &header_string);
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
 
-   
-    
-    std::cout << "initialized ricardogames api " << fullapiver << "\n";
+    if(dologging) {
+         std::cout << "initialized ricardogames api " << fullapiver << "\n";
+    }
 }
 void quitrgapi() {
     curl_easy_cleanup(curl);
@@ -78,49 +79,16 @@ int getapiversion(bool dologging) {
                 }
             }
             else {
-                //FIXME: create correct version parsing
-                int majorver = -1;
-                int minorver = -1;
-                int fixver = -1;
-                int tempval = 0;
-                for(int i = 0; i < response_string.length(); i++) {
-                    if(majorver == -1) {
-                        if(str == ".") {
-                            std::cout << "test: " << tempval << "\n";
-                            majorver = tempval;
-                            tempval = 0;
-                        }
-                        else {
-                            tempval = tempval * 10;
-                            
-                            tempval += stoi(str);
-                        }
-                    }
-                    else if(minorver == -1) {
-                        if(str == ".") {
-                            minorver = tempval;
-                            tempval = 0;
-                        }
-                        else {
-                            tempval = tempval * 10;
-                            
-                            tempval += stoi(str);
-                        }
-                    }
-                    else {
-                        if(str == ".") {
-                            fixver = tempval;
-                            tempval = 0;
-                        }
-                        else {
-                            tempval = tempval * 10;
-                            
-                            tempval += stoi(str);
-                        }
-                    }
-                    std::cout << str;
+                int version[3];
+                std::string verstr = response_string;
+                for(int i = 0; i < 3; i++) {
+                    size_t pos = verstr.find(".");
+                    std::string vernum = verstr.substr(0, pos);
+                    std::istringstream verstrm(vernum);
+                    verstrm >> version[i];
+                    
+                    verstr.erase(0, pos + 1);
                 }
-                std::cout << "\nvertest: " << majorver << "." << minorver << "." << fixver << "\n";
                 
             }
             /*else {
@@ -153,6 +121,7 @@ int getserverapiversion(bool dologging) {
         std::cout << "curl_easy_perform() failed: " << curl_easy_strerror(res) << "\n";
     }
     else {
+        //TODO: use version parsing above
         serverapiver = response_string;
         if(fullserverver == response_string) {
             if(dologging) {
