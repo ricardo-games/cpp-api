@@ -71,15 +71,9 @@ int getapiversion(bool dologging) {
                 }
                 return 1;
             }
-            else if(response_string == "ERROR: version is incorrect or depricated") {
-                if(dologging) {
-                    std::cout << "api version is depricated. if you are the developer please update the api.\n";
-                    std::cout << "your version is: " << fullapiver << "\n";
-                    std::cout << "latest version is: " << response_string << "\n";
-                }
-            }
             else {
                 int version[3];
+                int localversion[3];
                 std::string verstr = response_string;
                 for(int i = 0; i < 3; i++) {
                     size_t pos = verstr.find(".");
@@ -89,18 +83,53 @@ int getapiversion(bool dologging) {
                     
                     verstr.erase(0, pos + 1);
                 }
+                std::istringstream verstrm1(std::string(RGAPI_MAJOR_VERSION));
+                std::istringstream verstrm2(std::string(RGAPI_MINOR_VERSION));
+                std::istringstream verstrm3(std::string(RGAPI_FIX_VERSION));
+                verstrm1 >> localversion[0];
+                verstrm2 >> localversion[1];
+                verstrm3 >> localversion[2];
+                if(localversion[0] > version[0]) {
+                    if(dologging) {
+                        std::cout << "you are using a beta api version, please report any bug you find.\n";
+                        std::cout << "your version is: " << fullapiver << "\n";
+                        std::cout << "latest version is: " << response_string << "\n";
+                    }
+                }
+                else if(localversion[1] > version[1]) {
+                     if(dologging) {
+                        std::cout << "you are using a beta api version, please report any bug you find.\n";
+                        std::cout << "your version is: " << fullapiver << "\n";
+                        std::cout << "latest version is: " << response_string << "\n";
+                    }
+                }
+                else if(localversion[2] > version[2]) {
+                    if(dologging) {
+                        std::cout << "you are using a beta api version, please report any bug you find.\n";
+                        std::cout << "your version is: " << fullapiver << "\n";
+                        std::cout << "latest version is: " << response_string << "\n";
+                    }
+                }
+                else {
+                    if(dologging) {
+                        std::cout << "api version is outdated. if you are the developer please update the api.\n";
+                        std::cout << "your version is: " << fullapiver << "\n";
+                        std::cout << "latest version is: " << response_string << "\n";
+                    }
+                    return 0;
+
+                }
                 
             }
-            /*else {
-                if(dologging) {
-                    std::cout << "api version is outdated. if you are the developer please update the api.\n";
-                    std::cout << "your version is: " << fullapiver << "\n";
-                    std::cout << "latest version is: " << response_string << "\n";
-                }
-                return 0;
 
-            }*/
-
+        }
+        else {
+            std::cout << response_string << "\n";
+            if(dologging) {
+                std::cout << "api version is depricated. if you are the developer please update the api.\n";
+                std::cout << "your version is: " << fullapiver << "\n";
+                std::cout << "latest version is: " << response_string << "\n";
+            }
         }
         
        
@@ -123,33 +152,63 @@ int getserverapiversion(bool dologging) {
     else {
         //TODO: use version parsing above
         serverapiver = response_string;
-        if(fullserverver == response_string) {
-            if(dologging) {
-                std::cout << "api is using the latest server api version (" << response_string << ")\n";
-            }
-            return 1;
-        }
-        else {
-            if(response_string == "ERROR: version is incorrect or depricated") {
+        if(isdigit(response_string[0])) {
+            if(fullapiver == response_string) {
                 if(dologging) {
-                    std::cout << "your api library is using an depricated server api version\n";
-                    std::cout << "your version is: " << fullserverver << "\n";
-                    std::cout << "latest version on the server is: " << response_string << "\n";
+                    std::cout << "api is using the latest server api version (" << response_string << ")\n";
                 }
+                return 1;
             }
             else {
-                 if(dologging) {
-                    std::cout << "your api library is using an old server api version\n";
-                    std::cout << "if you are the developer please update before this version gets depricated\n";
-                    std::cout << "your version is: " << fullserverver << "\n";
-                    std::cout << "latest version on the server is: " << response_string << "\n";
+                int version[3];
+                int localversion[3];
+                std::string verstr = response_string;
+                for(int i = 0; i < 3; i++) {
+                    size_t pos = verstr.find(".");
+                    std::string vernum = verstr.substr(0, pos);
+                    std::istringstream verstrm(vernum);
+                    verstrm >> version[i];
+                    
+                    verstr.erase(0, pos + 1);
                 }
-                return 0;
+                std::istringstream verstrm1(std::string(RGAPI_SERVER_MAJOR_VERSION));
+                std::istringstream verstrm2(std::string(RGAPI_SERVER_MINOR_VERSION));
+                std::istringstream verstrm3(std::string(RGAPI_SERVER_FIX_VERSION));
+                verstrm1 >> localversion[0];
+                verstrm2 >> localversion[1];
+                verstrm3 >> localversion[2];
+                if(localversion[0] >= version[0] && localversion[1] >= version[1] && localversion[2] >= version[2]) {
+                    //api version is newer than the latest vesion
+                    if(dologging) {
+                        std::cout << "the api is relying on a newer api version, things may not work like expected\n";
+                        std::cout << "your version is: " << fullserverver << "\n";
+                        std::cout << "latest version is: " << response_string << "\n";
+                    }
+                    return 1;
+                }
+                else {
+                    if(dologging) {
+                        std::cout << "your api library is using an old server api version\n";
+                        std::cout << "if you are the developer please update before this version gets depricated\n";
+                        std::cout << "your version is: " << fullserverver << "\n";
+                        std::cout << "latest version on the server is: " << response_string << "\n";
+                    }
+                    return 0;
 
+                }
+                
             }
-           
-        }
-       
+
+        }   
+        else {
+            std::cout << response_string << "\n";
+            if(dologging) {
+                std::cout << "your api library is using an depricated server api version\n";
+                std::cout << "your version is: " << fullserverver << "\n";
+                std::cout << "latest version on the server is: " << response_string << "\n";
+            }
+            
+        }    
     }
     return -1;
 }
