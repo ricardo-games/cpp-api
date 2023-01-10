@@ -89,36 +89,26 @@ int getapiversion(bool dologging) {
                 verstrm1 >> localversion[0];
                 verstrm2 >> localversion[1];
                 verstrm3 >> localversion[2];
-                if(localversion[0] > version[0]) {
-                    if(dologging) {
-                        std::cout << "you are using a beta api version, please report any bug you find.\n";
-                        std::cout << "your version is: " << fullapiver << "\n";
-                        std::cout << "latest version is: " << response_string << "\n";
-                    }
-                }
-                else if(localversion[1] > version[1]) {
-                     if(dologging) {
-                        std::cout << "you are using a beta api version, please report any bug you find.\n";
-                        std::cout << "your version is: " << fullapiver << "\n";
-                        std::cout << "latest version is: " << response_string << "\n";
-                    }
-                }
-                else if(localversion[2] > version[2]) {
-                    if(dologging) {
-                        std::cout << "you are using a beta api version, please report any bug you find.\n";
-                        std::cout << "your version is: " << fullapiver << "\n";
-                        std::cout << "latest version is: " << response_string << "\n";
-                    }
-                }
-                else {
-                    if(dologging) {
-                        std::cout << "api version is outdated. if you are the developer please update the api.\n";
-                        std::cout << "your version is: " << fullapiver << "\n";
-                        std::cout << "latest version is: " << response_string << "\n";
-                    }
-                    return 0;
+                
+            	int localvernum = (100 * localversion[0]) + (10 * localversion[1]) + localversion[2];
+        		int latestvernum = (100 * version[0]) + (10 * version[1]) + version[2];
 
-                }
+               	if(localvernum > latestvernum) {
+                    if(dologging) {
+                        std::cout << "you are using a beta api version, please report any bug you find.\n";
+                        std::cout << "your version is: " << fullapiver << "\n";
+                        std::cout << "latest version is: " << response_string << "\n";
+                    }
+                    return 1;
+            	}
+				else {
+					if(dologging) {
+						std::cout << "api version is outdated. if you are the developer please update the api.\n";
+						std::cout << "your version is: " << fullapiver << "\n";
+						std::cout << "latest version is: " << response_string << "\n";
+					}
+					return 0;
+            	}
                 
             }
 
@@ -150,7 +140,6 @@ int getserverapiversion(bool dologging) {
         std::cout << "curl_easy_perform() failed: " << curl_easy_strerror(res) << "\n";
     }
     else {
-        //TODO: use version parsing above
         serverapiver = response_string;
         if(isdigit(response_string[0])) {
             if(fullapiver == response_string) {
@@ -177,25 +166,26 @@ int getserverapiversion(bool dologging) {
                 verstrm1 >> localversion[0];
                 verstrm2 >> localversion[1];
                 verstrm3 >> localversion[2];
-                if(localversion[0] >= version[0] && localversion[1] >= version[1] && localversion[2] >= version[2]) {
-                    //api version is newer than the latest vesion
+				int localvernum = (100 * localversion[0]) + (10 * localversion[1]) + localversion[2];
+        		int latestvernum = (100 * version[0]) + (10 * version[1]) + version[2];
+
+               	if(localvernum > latestvernum) {
                     if(dologging) {
-                        std::cout << "the api is relying on a newer api version, things may not work like expected\n";
+                        std::cout << "the api is relying on a beta api version, things may not work like expected\n";
                         std::cout << "your version is: " << fullserverver << "\n";
                         std::cout << "latest version is: " << response_string << "\n";
                     }
-                    return 1;
-                }
-                else {
-                    if(dologging) {
+					return 1;
+            	}
+				else {
+					if(dologging) {
                         std::cout << "your api library is using an old server api version\n";
                         std::cout << "if you are the developer please update before this version gets depricated\n";
                         std::cout << "your version is: " << fullserverver << "\n";
                         std::cout << "latest version on the server is: " << response_string << "\n";
                     }
-                    return 0;
-
-                }
+					return 0;
+            	}
                 
             }
 
