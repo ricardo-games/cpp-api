@@ -20,13 +20,15 @@ std::string header_string;
 std::string fullapiver;
 std::string fullserverver;
 
+struct curl_slist *list = NULL;
+
 
 size_t writeFunction(void *ptr, size_t size, size_t nmemb, std::string* data) {
     data->append((char*) ptr, size * nmemb);
     return size * nmemb;
 }
 
-void loadrgapi(bool dologging) {
+void loadrgapi(bool dologging, std::string description, std::string contactinfo) {
     fullapiver = std::string(RGAPI_MAJOR_VERSION) + "." + std::string(RGAPI_MINOR_VERSION) + "." + std::string(RGAPI_FIX_VERSION);
     fullserverver = std::string(RGAPI_SERVER_MAJOR_VERSION) + "." + std::string(RGAPI_SERVER_MINOR_VERSION) + "." + std::string(RGAPI_SERVER_FIX_VERSION);
     if(uselocalhost) {
@@ -42,9 +44,29 @@ void loadrgapi(bool dologging) {
     curl_easy_setopt(curl, CURLOPT_HEADERDATA, &header_string);
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
 
+    if(contactinfo == "") {
+        contactinfo = "no contact info set";
+        std::cout << "no contact info set, this program will be banned if it abuses the api\n";
+        std::cout << "if you are the developer, please pass trough contact info so i can contact you if something is wrong.\n";
+    }
+    if(description == "") {
+        description = "no description set";
+        std::cout << "no description set, if you are the developer please add one.\n";
+        std::cout << "with a description i can monitor mor easily and will ban your app less quickly\n";
+        std::cout << "it is best tho have the same name as the name on the launcher\n";
+    }
+
+    list = curl_slist_append(list, ("contactinfo: " + contactinfo).c_str());
+    list = curl_slist_append(list, ("description: " + description).c_str());
+    curl_easy_setopt(curl, CURLOPT_HTTPHEADER, list);
+
+
     if(dologging) {
          std::cout << "initialized ricardogames api " << fullapiver << "\n";
     }
+}
+void loadrgapi(bool dologging, const char* description, const char* contactinfo) {
+    loadrgapi(dologging, std::string(description), std::string(contactinfo));
 }
 void quitrgapi() {
     curl_easy_cleanup(curl);

@@ -26,10 +26,17 @@
 */
 extern bool uselocalhost;
 
-/**load the api.
-* load the ricardogames api, must be called before any other fuctions are run (exept getplayername and getplayersession)
+/**load the ricardogames api, must be called before any other fuctions are run (exept getplayername and getplayersession)
+* \param dologging log info to the console
+* \param contactinfo info that will be used to contact you if there is a problem with the api usage (no info = ban)
 */
-extern void loadrgapi(bool dologging);
+extern void loadrgapi(bool dologging, std::string description, std::string contactinfo);
+
+/**load the ricardogames api, must be called before any other fuctions are run (exept getplayername and getplayersession)
+* \param dologging log info to the console
+* \param contactinfo info that will be used to contact you if there is a problem with the api usage (no info = ban)
+*/
+extern void loadrgapi(bool dologging, const char* description, const char* contactinfo);
 
 /**correctly shut down the api.
 * quits the api, this correctly closes things the library uses

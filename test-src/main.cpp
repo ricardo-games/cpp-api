@@ -10,7 +10,7 @@ int WinMain(int argc, char* argv[]) {
 int main(int argc, char* argv[]) {
 #endif
     uselocalhost = true;
-    loadrgapi(true);
+    loadrgapi(true, "api-test", "robinbouma#8343");
     getapiversion(true);
     getserverapiversion(true);
     #ifdef _WIN32
