@@ -28,18 +28,20 @@ extern bool uselocalhost;
 
 /**load the ricardogames api, must be called before any other fuctions are run (exept getplayername and getplayersession)
 * \param dologging log info to the console
+* \param description short description of the program. it is best to just put the name of your program here.
 * \param contactinfo info that will be used to contact you if there is a problem with the api usage (no info = ban)
 */
 extern void loadrgapi(bool dologging, std::string description, std::string contactinfo);
 
 /**load the ricardogames api, must be called before any other fuctions are run (exept getplayername and getplayersession)
 * \param dologging log info to the console
+* \param description short description of the program. it is best to just put the name of your program here.
 * \param contactinfo info that will be used to contact you if there is a problem with the api usage (no info = ban)
 */
 extern void loadrgapi(bool dologging, const char* description, const char* contactinfo);
 
 /**correctly shut down the api.
-* quits the api, this correctly closes things the library uses
+* this correctly closes things the library uses
 */ 
 extern void quitrgapi();
 
@@ -85,16 +87,14 @@ extern int getidfromname(const char* name);
 */
 extern std::string getnamefromid(int id);
 
-/**get player name given by launcer
-* pass trough __argc and __argv on windows and  argc and argv on linux
+/**get player name given by launcher
 * \param argc argc launch argument
 * \param argv argv launch argument
 * \return the username of the player
 */
 extern std::string getplayername(int argc, char* argv[]);
 
-/**get session given by launcer
-* pass trough __argc and __argv on windows and  argc and argv on linux
+/**get session given by launcher.
 * \param argc argc launch argument
 * \param argv argv launch argument
 * \return the session of the player

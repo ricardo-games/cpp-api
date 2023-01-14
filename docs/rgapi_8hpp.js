@@ -1,18 +1,25 @@
 var rgapi_8hpp =
 [
-    [ "RGAPI_SERVER_VERSION", "rgapi_8hpp.html#aa10d3f0847e4c091a77a7dc1d46a762d", null ],
-    [ "RGAPI_VERSION", "rgapi_8hpp.html#af2a7265c75491f83126b963c0f822a95", null ],
+    [ "RGAPI_FIX_VERSION", "rgapi_8hpp.html#ac392c0a884c479ec408094dd755a362b", null ],
+    [ "RGAPI_MAJOR_VERSION", "rgapi_8hpp.html#a9cf3795e7063ec1c01d6d6fe8b3cdbc0", null ],
+    [ "RGAPI_MINOR_VERSION", "rgapi_8hpp.html#a1aa5ff80e338dc86e13d3766323c7ef0", null ],
+    [ "RGAPI_SERVER_FIX_VERSION", "rgapi_8hpp.html#ac3628ae7a1be3b4ff310441a59fcb05c", null ],
+    [ "RGAPI_SERVER_MAJOR_VERSION", "rgapi_8hpp.html#af0603ecfdc4eec16c2bbcea9ca456bbe", null ],
+    [ "RGAPI_SERVER_MINOR_VERSION", "rgapi_8hpp.html#a7ac9edd69f6d6ab610abebfb15c26930", null ],
     [ "checksession", "rgapi_8hpp.html#a303db6373353055d0db26cb712d7cf81", null ],
-    [ "getapiversion", "rgapi_8hpp.html#a34cc7f2fad8584dfa7ef6f16257e9000", null ],
+    [ "getapiversion", "rgapi_8hpp.html#a5e1faaed13a2409199851b0efcf7a914", null ],
     [ "getidfromname", "rgapi_8hpp.html#ab55b9a962bb7af703427bd2d09a88161", null ],
     [ "getidfromname", "rgapi_8hpp.html#a311874ef465c37ede971e7752dba214d", null ],
     [ "getnamefromid", "rgapi_8hpp.html#a63685f14c46331b5d99cc281e887cb44", null ],
     [ "getplayername", "rgapi_8hpp.html#afd9bc044f40ecde25e5f17e867fa2e28", null ],
     [ "getplayersession", "rgapi_8hpp.html#ab083275d53363a62fbb66e5f60724cc4", null ],
-    [ "getserverapiversion", "rgapi_8hpp.html#adedd739f54db64746ac465e000a137c2", null ],
+    [ "getserverapiversion", "rgapi_8hpp.html#a3cf5d80148374b703e11683bea346ef1", null ],
     [ "getwrcount", "rgapi_8hpp.html#a885c38dfb3201d07b98c7fe5840590de", null ],
-    [ "loadrgapi", "rgapi_8hpp.html#ae6e6dd383e3ccd0f84a28f98532986d3", null ],
+    [ "loadrgapi", "rgapi_8hpp.html#a308c398a3d6170adaf443a878d0db458", null ],
+    [ "loadrgapi", "rgapi_8hpp.html#aa5920c1b46db5b14733a719ec08af29c", null ],
     [ "newsession", "rgapi_8hpp.html#a17376c7259ca80e03e9f2cee65b52c30", null ],
+    [ "quitrgapi", "rgapi_8hpp.html#aae6f70ae30063757fe95a890e80cf040", null ],
     [ "latestapiver", "rgapi_8hpp.html#ad52445cd3619fe36ee6852c4848befe0", null ],
-    [ "latestserverapiver", "rgapi_8hpp.html#a8a4756266c4579cf02d93e245b8bba9b", null ]
+    [ "latestserverapiver", "rgapi_8hpp.html#a8a4756266c4579cf02d93e245b8bba9b", null ],
+    [ "uselocalhost", "rgapi_8hpp.html#adcc0b52256cd2d5b2e3d63e6a6871da4", null ]
 ];
