@@ -10,23 +10,23 @@ int WinMain(int argc, char* argv[]) {
 int main(int argc, char* argv[]) {
 #endif
     uselocalhost = true;
-    loadrgapi(true, "api-test", "robinbouma#8343");
-    getapiversion(true);
-    getserverapiversion(true);
+    RGAPI_Load(true, "api-test", "robinbouma#8343");
+    RGAPI_GetVersion(true);
+    RGAPI_GetServerVersion(true);
     #ifdef _WIN32
-    std::string playername = getplayername(__argc, __argv);
-    std::string session = getplayersession(__argc, __argv);
+    std::string playername = RGAPI_GetName(__argc, __argv);
+    std::string session = RGAPI_GetSession(__argc, __argv);
     #else
-    std::string playername = getplayername(argc, argv);
-    std::string session = getplayersession(argc, argv);
+    std::string playername = RGAPI_GetName(argc, argv);
+    std::string session = RGAPI_GetSession(argc, argv);
     #endif
     
     if(playername != "") {
-        testid = getidfromname(playername);
+        testid = RGAPI_NameToID(playername);
         std::cout << "id for player: " << testid << "\n";
-        std::string myname = getnamefromid(testid);
+        std::string myname = RGAPI_IDToName(testid);
         std::cout << "name for id: " << myname << "\n";
-        int wrcount = getwrcount(testid);
+        int wrcount = RGAPI_GetWRCount(testid);
         std::cout << "player has " << wrcount << " world records in doolhof, de game!\n";
     }
     else {
@@ -35,9 +35,9 @@ int main(int argc, char* argv[]) {
     if(session != "") {
         std::cout << "session: " << session << "\n";
         if(testid != 0) {
-            if(checksession(testid, session)) {
+            if(RGAPI_CheckSession(testid, session)) {
                 std::cout << "session is correct\n";
-                session = newsession(testid, session);
+                session = RGAPI_NewSession(testid, session);
                 std::cout << "new session: " << session << "\n";
             }
             else {

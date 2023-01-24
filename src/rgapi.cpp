@@ -20,6 +20,9 @@ std::string header_string;
 std::string fullapiver;
 std::string fullserverver;
 
+std::string RGAPI_LatestVer;
+std::string RGAPI_LatestServerVer;
+
 struct curl_slist *list = NULL;
 
 
@@ -28,7 +31,7 @@ size_t writeFunction(void *ptr, size_t size, size_t nmemb, std::string* data) {
     return size * nmemb;
 }
 
-void loadrgapi(bool dologging, std::string description, std::string contactinfo) {
+void RGAPI_Load(bool dologging, std::string description, std::string contactinfo) {
     fullapiver = std::string(RGAPI_MAJOR_VERSION) + "." + std::string(RGAPI_MINOR_VERSION) + "." + std::string(RGAPI_FIX_VERSION);
     fullserverver = std::string(RGAPI_SERVER_MAJOR_VERSION) + "." + std::string(RGAPI_SERVER_MINOR_VERSION) + "." + std::string(RGAPI_SERVER_FIX_VERSION);
     if(uselocalhost) {
@@ -65,13 +68,13 @@ void loadrgapi(bool dologging, std::string description, std::string contactinfo)
          std::cout << "initialized ricardogames api " << fullapiver << "\n";
     }
 }
-void loadrgapi(bool dologging, const char* description, const char* contactinfo) {
-    loadrgapi(dologging, std::string(description), std::string(contactinfo));
+void RGAPI_Load(bool dologging, const char* description, const char* contactinfo) {
+    RGAPI_Load(dologging, std::string(description), std::string(contactinfo));
 }
-void quitrgapi() {
+void RGAPI_Quit() {
     curl_easy_cleanup(curl);
 }
-int getapiversion(bool dologging) {
+int RGAPI_GetVersion(bool dologging) {
     
 
     curl_easy_setopt(curl, CURLOPT_URL, (url + "&r=getlatestapiver&language=cpp").c_str());
@@ -87,6 +90,7 @@ int getapiversion(bool dologging) {
     else {
         apiver = response_string;
         if(isdigit(response_string[0])) {
+            RGAPI_LatestVer = response_string;
             if(fullapiver == response_string) {
                 if(dologging) {
                     std::cout << "api is up to date (" << response_string << ")\n";
@@ -149,7 +153,7 @@ int getapiversion(bool dologging) {
 
     return -1;
 }
-int getserverapiversion(bool dologging) {
+int RGAPI_GetServerVersion(bool dologging) {
 
     curl_easy_setopt(curl, CURLOPT_URL, (url + "&r=getlatestapiver").c_str());
 
@@ -164,6 +168,7 @@ int getserverapiversion(bool dologging) {
     else {
         serverapiver = response_string;
         if(isdigit(response_string[0])) {
+            RGAPI_LatestServerVer = response_string;
             if(fullapiver == response_string) {
                 if(dologging) {
                     std::cout << "api is using the latest server api version (" << response_string << ")\n";
@@ -224,10 +229,10 @@ int getserverapiversion(bool dologging) {
     }
     return -1;
 }
-int getidfromname(const char* name) {
-    return getidfromname(std::string(name));
+int RGAPI_NameToID(const char* name) {
+    return RGAPI_NameToID(std::string(name));
 }
-int getidfromname(std::string name) {
+int RGAPI_NameToID(std::string name) {
     
    
     std::string requesturl = url + "&r=nametoid&name=" + name;
@@ -252,7 +257,7 @@ int getidfromname(std::string name) {
    
     return -1;
 }
-std::string getnamefromid(int id) {
+std::string RGAPI_IDToName(int id) {
     
     std::string requesturl = url + "&r=idtoname&id=" + std::to_string(id);
     curl_easy_setopt(curl, CURLOPT_URL, requesturl.c_str());
@@ -270,7 +275,7 @@ std::string getnamefromid(int id) {
     return "ERROR: no player found";
 
 }
-std::string getplayername(int argc, char* argv[]) {
+std::string RGAPI_GetName(int argc, char* argv[]) {
     for(int i = 0; i < argc - 1; i++) {
         if(std::string(argv[i]) == std::string("--name")) {
             if(std::string(argv[i + 1]) != std::string("--session")) {
@@ -280,7 +285,7 @@ std::string getplayername(int argc, char* argv[]) {
     }
     return "";
 }
-std::string getplayersession(int argc, char* argv[]) {
+std::string RGAPI_GetSession(int argc, char* argv[]) {
     for(int i = 0; i < argc - 1; i++) {
         if(std::string(argv[i]) == std::string("--session")) {
             if(std::string(argv[i + 1]) != std::string("--name")) {
@@ -290,7 +295,7 @@ std::string getplayersession(int argc, char* argv[]) {
     }
     return "";
 }
-int getwrcount(int id) {
+int RGAPI_GetWRCount(int id) {
     
     
     std::string requesturl = url + "&r=getwrcount&id=" + std::to_string(id);
@@ -315,7 +320,7 @@ int getwrcount(int id) {
     }
     return -1;
 }
-std::string newsession(int id, std::string session) {
+std::string RGAPI_NewSession(int id, std::string session) {
     
    
     std::string requesturl = url + "&r=newsession&session=" + session + "&id=" + std::to_string(id);
@@ -338,7 +343,7 @@ std::string newsession(int id, std::string session) {
     }
     return "ERROR";
 }
-bool checksession(int id, std::string session) {
+bool RGAPI_CheckSession(int id, std::string session) {
     
     
     std::string requesturl = url + "&r=checksession&session=" + session + "&id=" + std::to_string(id);
