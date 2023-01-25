@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['latestapiver_0',['latestapiver',['../rgapi_8hpp.html#ad52445cd3619fe36ee6852c4848befe0',1,'rgapi.hpp']]],
-  ['latestserverapiver_1',['latestserverapiver',['../rgapi_8hpp.html#a8a4756266c4579cf02d93e245b8bba9b',1,'rgapi.hpp']]]
+  ['rgapi_5flatestserverver_0',['RGAPI_LatestServerVer',['../rgapi_8hpp.html#af2d293a8a8568c48df0e3e8a51c2c379',1,'rgapi.hpp']]],
+  ['rgapi_5flatestver_1',['RGAPI_LatestVer',['../rgapi_8hpp.html#a673b1c92d3e8caf1c651d198a09bafb9',1,'rgapi.hpp']]]
 ];
