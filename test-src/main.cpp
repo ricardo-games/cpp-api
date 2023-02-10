@@ -9,7 +9,7 @@ int WinMain(int argc, char* argv[]) {
 #else
 int main(int argc, char* argv[]) {
 #endif
-    uselocalhost = true;
+    RGAPI_UseLocalhost = true;
     RGAPI_Load(true, "api-test", "robinbouma#8343");
     RGAPI_GetVersion(true);
     RGAPI_GetServerVersion(true);

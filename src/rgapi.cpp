@@ -7,7 +7,7 @@
 
 CURL* curl;
 
-bool uselocalhost;
+bool RGAPI_UseLocalhost;
 
 std::string url;
 
@@ -34,7 +34,7 @@ size_t writeFunction(void *ptr, size_t size, size_t nmemb, std::string* data) {
 void RGAPI_Load(bool dologging, std::string description, std::string contactinfo) {
     fullapiver = std::string(RGAPI_MAJOR_VERSION) + "." + std::string(RGAPI_MINOR_VERSION) + "." + std::string(RGAPI_FIX_VERSION);
     fullserverver = std::string(RGAPI_SERVER_MAJOR_VERSION) + "." + std::string(RGAPI_SERVER_MINOR_VERSION) + "." + std::string(RGAPI_SERVER_FIX_VERSION);
-    if(uselocalhost) {
+    if(RGAPI_UseLocalhost) {
         url = "http://localhost/ricardogames-site/api/?v=" + fullserverver;
     }
     else {

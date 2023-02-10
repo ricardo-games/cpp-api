@@ -24,7 +24,7 @@
 /**boolean to use localhost for the api site.
 * defaults to false, only set to true if you want to debug serverside and have the serverside files
 */
-extern bool uselocalhost;
+extern bool RGAPI_UseLocalhost;
 
 /**load the ricardogames api, must be called before any other fuctions are run (exept getplayername and getplayersession)
 * \param dologging log info to the console
