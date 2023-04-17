@@ -25,6 +25,8 @@ std::string RGAPI_LatestServerVer;
 
 struct curl_slist *list = NULL;
 
+std::string refreshsession;
+
 
 size_t writeFunction(void *ptr, size_t size, size_t nmemb, std::string* data) {
     data->append((char*) ptr, size * nmemb);
@@ -77,7 +79,7 @@ void RGAPI_Quit() {
 int RGAPI_GetVersion(bool dologging) {
     
 
-    curl_easy_setopt(curl, CURLOPT_URL, (url + "&r=getlatestapiver&language=cpp").c_str());
+    curl_easy_setopt(curl, CURLOPT_URL, (url + "&r=getlatestversion&language=cpp").c_str());
     
     response_string = "";
     header_string = "";
@@ -155,7 +157,7 @@ int RGAPI_GetVersion(bool dologging) {
 }
 int RGAPI_GetServerVersion(bool dologging) {
 
-    curl_easy_setopt(curl, CURLOPT_URL, (url + "&r=getlatestapiver").c_str());
+    curl_easy_setopt(curl, CURLOPT_URL, (url + "&r=getlatestversion").c_str());
 
     response_string = "";
     header_string = "";
@@ -286,19 +288,31 @@ std::string RGAPI_GetName(int argc, char* argv[]) {
     return "";
 }
 std::string RGAPI_GetSession(int argc, char* argv[]) {
+    std::string result = "";
+    int resgotten = 0;
     for(int i = 0; i < argc - 1; i++) {
         if(std::string(argv[i]) == std::string("--session")) {
-            if(std::string(argv[i + 1]) != std::string("--name")) {
-                return argv[i + 1];
+            if(std::string(argv[i + 1]) != std::string("--name") && std::string(argv[i + 1]) != std::string("--rsession")) {
+                resgotten++;
+                result = std::string(argv[i + 1]);
             }
         }
+        else if(std::string(argv[i]) == std::string("--rsession")) {
+            if(std::string(argv[i + 1]) != std::string("--name") && std::string(argv[i + 1]) != std::string("--session")) {
+                resgotten++;
+                refreshsession = std::string(argv[i + 1]);
+            }
+        }
+        if(resgotten >= 2) {
+            break;
+        }
     }
-    return "";
+    return result;
 }
 int RGAPI_GetWRCount(int id) {
     
     
-    std::string requesturl = url + "&r=getwrcount&id=" + std::to_string(id);
+    std::string requesturl = url + "&r=doolhof/getwrcount&id=" + std::to_string(id);
     curl_easy_setopt(curl, CURLOPT_URL, requesturl.c_str());
    
 
@@ -320,10 +334,10 @@ int RGAPI_GetWRCount(int id) {
     }
     return -1;
 }
-std::string RGAPI_NewSession(int id, std::string session) {
+std::string RGAPI_NewSession(int id) {
     
    
-    std::string requesturl = url + "&r=newsession&session=" + session + "&id=" + std::to_string(id);
+    std::string requesturl = url + "&r=newsession&session=" + refreshsession + "&id=" + std::to_string(id);
     curl_easy_setopt(curl, CURLOPT_URL, requesturl.c_str());
 
     response_string = "";
@@ -334,8 +348,10 @@ std::string RGAPI_NewSession(int id, std::string session) {
         std::cout << "curl_easy_perform() failed: " << curl_easy_strerror(res) << "\n";
     }
     else {
-        if(response_string.length() == 32) {
-            return response_string;
+        if(response_string.length() == 65) {
+            std::string session = response_string.substr(0, 32);
+            refreshsession = response_string.substr(33, 32);
+            return session;
         }
         else {
             std::cout << response_string << "\n";

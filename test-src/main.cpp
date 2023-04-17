@@ -37,7 +37,7 @@ int main(int argc, char* argv[]) {
         if(testid != 0) {
             if(RGAPI_CheckSession(testid, session)) {
                 std::cout << "session is correct\n";
-                session = RGAPI_NewSession(testid, session);
+                session = RGAPI_NewSession(testid);
                 std::cout << "new session: " << session << "\n";
             }
             else {
