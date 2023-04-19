@@ -16,7 +16,7 @@
 #define RGAPI_SERVER_MAJOR_VERSION "0"
 /**the minor serverside api version this build of the library uses.
 */
-#define RGAPI_SERVER_MINOR_VERSION "2"
+#define RGAPI_SERVER_MINOR_VERSION "3"
 /**the fix serverside api version this build of the library uses.
 */
 #define RGAPI_SERVER_FIX_VERSION "0"
@@ -24,7 +24,7 @@
 /**boolean to use localhost for the api site.
 * defaults to false, only set to true if you want to debug serverside and have the serverside files
 */
-extern bool uselocalhost;
+extern bool RGAPI_UseLocalhost;
 
 /**load the ricardogames api, must be called before any other fuctions are run (exept getplayername and getplayersession)
 * \param dologging log info to the console
@@ -108,16 +108,16 @@ extern std::string RGAPI_GetSession(int argc, char* argv[]);
 extern int RGAPI_GetWRCount(int id);
 
 /**get a new session.
-* if ERROR is returned imediatly exit because the session may have been stolen by the server
+* get a new session. this will invalidate the old session
 * \param id the id of the player
-* \param session the current session
 * \return the new session or ERROR on an error
 */
-extern std::string RGAPI_NewSession(int id, std::string session);
+extern std::string RGAPI_NewSession(int id);
 
 /**check if a given session is correct.
 * used for checking if the player is who he says he is on the server
 * only accept players when this function returns true
+* this function will invalidate the session when it is correct
 * \param id id of the player to check
 * \param session the session given by the player
 * \return true if the session is correct, false if incorrect

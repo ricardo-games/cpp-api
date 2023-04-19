@@ -9,7 +9,7 @@ int WinMain(int argc, char* argv[]) {
 #else
 int main(int argc, char* argv[]) {
 #endif
-    uselocalhost = true;
+    RGAPI_UseLocalhost = true;
     RGAPI_Load(true, "api-test", "robinbouma#8343");
     RGAPI_GetVersion(true);
     RGAPI_GetServerVersion(true);
@@ -37,7 +37,7 @@ int main(int argc, char* argv[]) {
         if(testid != 0) {
             if(RGAPI_CheckSession(testid, session)) {
                 std::cout << "session is correct\n";
-                session = RGAPI_NewSession(testid, session);
+                session = RGAPI_NewSession(testid);
                 std::cout << "new session: " << session << "\n";
             }
             else {
