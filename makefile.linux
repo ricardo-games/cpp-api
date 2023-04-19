@@ -8,7 +8,7 @@ CC = g++
 
 #de bestanden van de librarys die geinclude moeten worden
 INCLUDE_PATHS = -Iinclude
-#de locar=tie van de library bestanden
+#de locatie van de library bestanden
 LIBRARY_PATHS = -Llib -Llib/linux
 
 #flags die de compiler gebruikt (kan bijv. optimalisatie met -O2)
@@ -28,5 +28,5 @@ LIB_NAME = build/ricardogames-api
 
 all:${SRC}
 	${CC} ${COMPILER_FLAGS} ${INCLUDE_PATHS} -c -o $(OBJ) $(SRC)
-	ar crf lib/librgapi.a ${OBJ}
+	ar crf lib/linux/librgapi.a ${OBJ}
 	$(CC) $(TESTSRC) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(COMPILER_FLAGS) $(LINKER_FLAGS) -o $(TEST_NAME)
