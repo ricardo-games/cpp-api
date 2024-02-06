@@ -8,7 +8,7 @@ TESTOBJ = $(SRC:.cpp=.o)
 CC = g++
 
 #de bestanden van de librarys die geinclude moeten worden
-INCLUDE_PATHS = -Iinclude
+INCLUDE_PATHS = -Isrc
 #de locar=tie van de library bestanden
 LIBRARY_PATHS = -Llib
 
